@@ -17,14 +17,19 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
-add_executable(simple_walker src/simple_walker.cpp)
+add_executable(simple_walker src/main.cpp src/simple_walker.cpp)
 target_include_directories(simple_walker PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
+
+ament_target_dependencies(simple_walker
+    rclcpp
+    geometry_msgs
+    sensor_msgs)
 
 install(
   DIRECTORY launch
