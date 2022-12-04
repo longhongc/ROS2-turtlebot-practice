@@ -36,6 +36,20 @@ void SimpleWalker::initialize()
     backward_velocity.linear.x = -0.1;
     turn_velocity.angular.z = -0.2;
 
+    RCLCPP_INFO_STREAM(
+        this->get_logger(),
+        "Start robot with an angle");
+    auto turn_left_velocity = turn_velocity;
+    turn_left_velocity.angular.z = 0.2;
+
+    rclcpp::Time start_time = this->now();
+    double elapsed_second = 0;
+    while (elapsed_second < 3) {
+        vel_publisher_->publish(turn_left_velocity);
+        elapsed_second = (this->now() - start_time).seconds();
+    }
+
+    
     this->goState(WALKER_STATE::FORWARD);
     RCLCPP_INFO_STREAM(
         this->get_logger(),
@@ -107,7 +121,25 @@ void SimpleWalker::goState(WALKER_STATE new_state)
 
 bool SimpleWalker::forward_to_back() 
 {
-    return last_scan_->ranges[0] < this->OBSTACLE_MARGIN;
+    bool blocked = false;
+    int half_view_idxs = 70;
+    int right_check_idx = 360 - half_view_idxs;
+    int left_check_idx = 0 + half_view_idxs;
+    for (int i=right_check_idx; i<360; ++i) {
+        if (last_scan_->ranges[i] < this->OBSTACLE_MARGIN) {
+            blocked = true;
+            break;
+        }
+    }
+
+    for (int i=0; i<left_check_idx; ++i) {
+        if (last_scan_->ranges[i] < this->OBSTACLE_MARGIN) {
+            blocked = true;
+            break;
+        }
+    }
+
+    return blocked;
 }
 
 bool SimpleWalker::back_to_turn() 

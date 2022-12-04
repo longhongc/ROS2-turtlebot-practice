@@ -36,7 +36,7 @@ private:
     WALKER_STATE current_state_;
     rclcpp::Time state_start_time_;
     const rclcpp::Duration BACK_TIME{1s};
-    const rclcpp::Duration TURN_TIME{2s};
+    const rclcpp::Duration TURN_TIME{4s};
 
-    const float OBSTACLE_MARGIN{0.5};
+    const float OBSTACLE_MARGIN{0.3};
 };
