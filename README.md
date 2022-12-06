@@ -3,20 +3,31 @@
 This repository is to practice integration with Gazebo with the turtlebot tools.  
 A turtlebot will be walking around in gazebo with simple bump-and-go obstacle avoidance strategy.  
 
+<img width="500" alt="turtlebot" src="./results/turtlebot.png">  
+
 ### Table of contents
 - [**Dependencies**](#dependencies)
 - [**Install**](#install)
 - [**Docs**](#docs)
 - [**Build**](#build)
 - [**Run**](#run)
+- [**Result**](#result)
 - [**Rosbag**](#rosbag)
 
 ## Dependencies
-- ROS2
-- turtlebot3_gazebo
-- Doxygen (Optional for generating docs)
+- [ROS2](https://docs.ros.org/en/foxy/Installation.html) 
+- [Gazebo](http://classic.gazebosim.org/tutorials?tut=ros2_installing&cat=connect_ros)  
+- [Doxygen](https://www.doxygen.nl/download.html) (Optional for generating docs)  
 
-Check this [link](http://classic.gazebosim.org/tutorials?tut=ros2_installing&cat=connect_ros) to install ros2 gazebo packages.
+### ROS2 packages
+- turtlebot3_gazebo
+
+Install packages with command
+```
+cd {ros2_ws}/src
+rosdep update
+rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
+```
 
 ### Testing Environment
 - Ubuntu 20.04
@@ -56,7 +67,10 @@ Rosbag can be record at the same time by setting the argument record to true.
 ros2 launch ros2_turtlebot_practice start_walker.launch.py record:=true
 ```
 
+## Result
+<img width="500" alt="turtlebot" src="./results/turtlebot.gif">  
+
 ## Rosbag
-A rosbag is already recorded in the results folder.
+A rosbag is already recorded in the results folder.  
 Run rosbag with command `ros2 bag play {name of rosbag folder}`  
 Inspect rosbag information with command `ros2 bag info {name of rosbag folder}` 
